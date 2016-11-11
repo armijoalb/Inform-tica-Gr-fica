@@ -15,6 +15,8 @@
 #include "objb3d.h"
 #include "file_ply_stl.h"
 
+typedef enum{POINTS, LINES, SOLID, CHESS, ALL, TRANSLATION} _rendering_mode;
+
 class Object3d : public Basic3dObject {
 protected:
   vector<_vertex3ui> triangles;
@@ -29,6 +31,8 @@ public:
   void draw_solid_chess();
   void draw_points_edges_solid();
   void setTriangles(vector<int> &faces);
+
+  void draw(const _rendering_mode mode);
 
 };
 

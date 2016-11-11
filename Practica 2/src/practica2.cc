@@ -9,7 +9,6 @@
 
 // Enumerados:
 typedef enum{CUBE, TETRAHEDRON, O_PLY, REVOLUTION} _object_type;
-typedef enum{POINTS, LINES, SOLID, CHESS, ALL, TRANSLATION} _rendering_mode;
 typedef enum{CILINDER, TUBE, CONE, GLASS, INV_GLASS, PAWN, SPHERE, PYRAMID, PARTIAL} _revolution_obj;
 
 // tamaño de los ejes
@@ -185,129 +184,56 @@ void draw_objects()
 	switch (figura) {
 		// Cubo.
 		case CUBE:
-			switch (modo){
-				case POINTS : un_cubo.draw_points(); break;
-				case LINES : un_cubo.draw_edges(); break;
-				case SOLID : un_cubo.draw_solid(); break;
-				case CHESS : un_cubo.draw_solid_chess(); break;
-				case ALL : un_cubo.draw_points_edges_solid(); break;
-				case TRANSLATION : un_cubo.move_object(1,1,1);
-			}
+			un_cubo.draw(modo);
 			break;
 		// Tetraedro.
 
 		case TETRAHEDRON:
-			switch (modo){
-				case POINTS : un_tetraedro.draw_points(); break;
-				case LINES : un_tetraedro.draw_edges(); break;
-				case SOLID : un_tetraedro.draw_solid(); break;
-				case CHESS : un_tetraedro.draw_solid_chess(); break;
-				case ALL : un_tetraedro.draw_points_edges_solid(); break;
-				case TRANSLATION : un_tetraedro.move_object(1,1,1); break;
-			}
+			un_tetraedro.draw(modo);
 			break;
 
 		case O_PLY:
-			switch (modo) {
-				case POINTS: objeto_ply.draw_points(); break;
-				case LINES: objeto_ply.draw_edges(); break;
-				case SOLID: objeto_ply.draw_solid(); break;
-				case CHESS: objeto_ply.draw_solid_chess(); break;
-				case ALL: objeto_ply.draw_points_edges_solid(); break;
-			}
+			objeto_ply.draw(modo);
 			break;
 
 		case REVOLUTION:
 			switch(rev_obj){
 
 				case CILINDER:
-					switch (modo) {
-						case POINTS: cilinder.draw_points(); break;
-						case LINES: cilinder.draw_edges(); break;
-						case SOLID: cilinder.draw_solid(); break;
-						case CHESS: cilinder.draw_solid_chess(); break;
-						case ALL: cilinder.draw_points_edges_solid(); break;
-					}
+					cilinder.draw(modo);
 					break;
 
 				case TUBE:
-					switch (modo) {
-						case POINTS: tube.draw_points(); break;
-						case LINES: tube.draw_edges(); break;
-						case SOLID: tube.draw_solid(); break;
-						case CHESS: tube.draw_solid_chess(); break;
-						case ALL : tube.draw_points_edges_solid(); break;
-					}
+					tube.draw(modo);
 					break;
 
 				case CONE:
-				 switch (modo) {
-					case POINTS: cone.draw_points(); break;
-					case LINES: cone.draw_edges(); break;
-					case SOLID: cone.draw_solid(); break;
-					case CHESS: cone.draw_solid_chess(); break;
-					case ALL: cone.draw_points_edges_solid(); break;
-				}
+				 cone.draw(modo);
 				break;
 
 				case GLASS:
-					switch (modo) {
-						case POINTS: glass.draw_points(); break;
-						case LINES: glass.draw_edges(); break;
-						case SOLID: glass.draw_solid(); break;
-						case CHESS: glass.draw_solid_chess(); break;
-						case ALL: glass.draw_points_edges_solid(); break;
-					}
+					glass.draw(modo);
 					break;
 
 				case INV_GLASS:
-					switch (modo) {
-						case POINTS: inverted_glass.draw_points(); break;
-						case LINES: inverted_glass.draw_edges(); break;
-						case SOLID: inverted_glass.draw_solid(); break;
-						case CHESS: inverted_glass.draw_solid_chess(); break;
-						case ALL: inverted_glass.draw_points_edges_solid(); break;
-					}
+					inverted_glass.draw(modo);
 					break;
 
 				case PAWN:
-					switch(modo) {
-						case POINTS: pawn.draw_points(); break;
-						case LINES: pawn.draw_edges(); break;
-						case SOLID: pawn.draw_solid(); break;
-						case CHESS: pawn.draw_solid_chess(); break;
-						case ALL: pawn.draw_points_edges_solid(); break;
-					}
+					pawn.draw(modo);
 					break;
 
 				case SPHERE:
-					switch(modo) {
-						case POINTS: sphere.draw_points(); break;
-						case LINES: sphere.draw_edges(); break;
-						case SOLID: sphere.draw_solid(); break;
-						case CHESS: sphere.draw_solid_chess(); break;
-						case ALL: sphere.draw_points_edges_solid(); break;
-					}
+				sphere.draw(modo);
 					break;
 
 				case PYRAMID:
-					switch (modo) {
-						case POINTS: pyramid.draw_points(); break;
-						case LINES: pyramid.draw_edges(); break;
-						case SOLID: pyramid.draw_solid(); break;
-						case CHESS: pyramid.draw_solid_chess(); break;
-						case ALL: pyramid.draw_points_edges_solid(); break;
-					}
+					pyramid.draw(modo);
 					break;
 
 				case PARTIAL:
-					switch (modo) {
-						case POINTS: partial_object.draw_points(); break;
-						case LINES: partial_object.draw_edges(); break;
-						case SOLID: partial_object.draw_solid(); break;
-						case CHESS: partial_object.draw_solid_chess(); break;
-						case ALL: partial_object.draw_points_edges_solid(); break;
-					}
+					partial_object.draw(modo);
+					break;
 
 			}
 	}

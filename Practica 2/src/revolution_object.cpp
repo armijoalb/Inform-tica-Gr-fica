@@ -64,7 +64,6 @@ void RevolutionObject::create_profiles(unsigned int n_profiles, const float ini_
           _x = vertex[j].x * cos(angle*i) + vertex[j].z*sin(angle*i);
           _z = -vertex[j].x * sin(angle*i) + vertex[j].z*cos(angle*i);
 
-          cout << _z << endl;
 
           vertex.push_back( _vertex3f(_x, vertex[j].y, _z) );
         }

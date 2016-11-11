@@ -124,3 +124,14 @@ Object3d::Object3d(char * file_name){
 // Constructor para crear solo el modelo de puntos.
 Object3d::Object3d(vector<_vertex3f> &v):Basic3dObject(v){
 }
+
+// Función para dibujar.
+void Object3d::draw(const _rendering_mode mode){
+  switch (mode) {
+    case POINTS: this->draw_points(); break;
+    case LINES: this->draw_edges(); break;
+    case SOLID: this->draw_solid(); break;
+    case CHESS: this->draw_solid_chess(); break;
+    case ALL: this->draw_points_edges_solid(); break;
+  }
+}
