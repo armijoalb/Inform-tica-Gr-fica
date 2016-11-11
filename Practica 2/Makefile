@@ -8,7 +8,7 @@ INC= include
 
 # nombre del fichero ejecutable
 #
-TARGETS= bin/practica2
+TARGETS= $(BIN)/practica2
 
 # banderas para el compilador (C y C++). Se indican los directorios donde se puenden
 # encontrar ficheros para incluir mediante la opcion -I
@@ -27,7 +27,7 @@ LDFLAGS=  -lGLU -lGL -lglut
 #
 CC = g++
 
-SOURCE = $(SRC)/practica2.cc $(SRC)/objb3d.cpp $(SRC)/obj3d.cpp $(SRC)/file_ply_stl.cc $(SRC)/revolution_object.cpp
+SOURCE = $(SRC)/practica2.cc $(SRC)/objb3d.cpp $(SRC)/obj3d.cpp $(SRC)/file_ply_stl.cc $(SRC)/revolution_object.cpp $(SRC)/functions.cpp
 
 # orden que sera ejecutada por defecto
 #

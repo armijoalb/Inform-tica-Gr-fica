@@ -16,6 +16,76 @@ RevolutionObject::RevolutionObject(vector<_vertex3f> &perfil): Object3d(perfil){
   create_exterior();
 }
 
+
+// Examen
+RevolutionObject::RevolutionObject(std::vector<_vertex3f> &perfil, const unsigned int n_pro): Object3d(perfil){
+  check_top(perfil);
+  points_profile = perfil.size() - n_tops;
+  create_profiles(n_pro);
+  create_exterior();
+}
+
+RevolutionObject::RevolutionObject(vector<_vertex3f> &perfil, const unsigned int n_pro,
+                                   const float ini_ang, const float fin_ang)
+:Object3d(perfil){
+  check_top(perfil);
+  points_profile = perfil.size() - n_tops;
+  create_profiles(n_pro, ini_ang, fin_ang);
+  create_exterior();
+}
+
+void RevolutionObject::create_profiles(unsigned int n_profiles, const float ini_ang, const float fin_ang){
+  if((fin_ang-ini_ang) < 2*M_PI){
+    partial = true;
+    float angle = (fin_ang-ini_ang)/(n_profiles);
+    float _x, _z;
+    unsigned int tam = vertex.size();
+    vector<_vertex3f> aux;
+
+    for(unsigned int i = getNTapas(); i < tam ; i++){
+      aux.push_back(vertex[i]);
+    }
+
+    profiles = n_profiles;
+
+
+
+    float aux_x;
+    for(unsigned int i = getNTapas(); i < tam; i++){
+      aux_x = vertex[i].x;
+      vertex[i].x = aux_x*cos(ini_ang);
+      vertex[i].z = -aux_x*sin(ini_ang);
+    }
+
+
+    for(unsigned int i=1; i < n_profiles ; i++){
+      for(unsigned int j=0; j < tam ; j++){
+        if(vertex[j].x != 0.0){
+          _x = vertex[j].x * cos(angle*i) + vertex[j].z*sin(angle*i);
+          _z = -vertex[j].x * sin(angle*i) + vertex[j].z*cos(angle*i);
+
+          cout << _z << endl;
+
+          vertex.push_back( _vertex3f(_x, vertex[j].y, _z) );
+        }
+      }
+    }
+
+    for(unsigned int i = 0 ; i < aux.size(); i++){
+      _x = aux[i].x*cos(fin_ang);
+      _z = -aux[i].x*sin(fin_ang);
+
+      vertex.push_back( _vertex3f(_x, aux[i].y, _z));
+    }
+
+
+  }
+  else{
+    create_profiles(n_profiles);
+  }
+
+}
+
 // Función para comprobar si tenemos tapas, y cuáles.
 void RevolutionObject::check_top(vector<_vertex3f> &perfil){
   // Solo comprobaremos las dos primeras posiciones del vector, ya que las tapas son las primeras en pasarse.
@@ -68,7 +138,7 @@ void RevolutionObject::create_profiles(unsigned int n_profiles){
     for(unsigned int j=0; j < tam ; j++){
       if(vertex[j].x != 0.0){
         _x = vertex[j].x * cos(angle*i);
-        _z = vertex[j].x * sin(angle*i);
+        _z = -vertex[j].x * sin(angle*i);
 
         vertex.push_back( _vertex3f(_x, vertex[j].y, _z) );
       }
@@ -100,7 +170,7 @@ void RevolutionObject::create_exterior(){
     for(unsigned int i=0; i < profiles ; i++){
       aux_2 = ini;
       for(unsigned int j=0; j < (getPointsProfile()-1); j++){
-        if(i == (profiles-1) ){
+        if(i == (profiles-1) && !partial ){
           t1._0 = ini; t1._1 = ((ini+sum) % max); t1._2 = aux;
           t2._0 = ((ini+sum) % max); t2._1 = ((ini+sum-1) % max); t2._2 = aux;
         }
@@ -144,7 +214,7 @@ void RevolutionObject::create_top_above(){
     _0 = ini;
     _2 = (ini+sum)%vertex.size();
 
-    if(i == (profiles-1))
+    if(i == (profiles-1) && !partial)
       _2 = getPointsProfile()+getNTapas()-1;
 
     triangles.push_back(_vertex3ui(_0,0,_2));
@@ -168,7 +238,7 @@ void RevolutionObject::create_top_under(){
     _0 = ini;
     _2 = (ini+sum)%vertex.size();
 
-    if(i == (profiles-1))
+    if(i == (profiles-1) && !partial)
       _2 = getNTapas();
 
     triangles.push_back(_vertex3ui(_0,pos_tapa,_2));

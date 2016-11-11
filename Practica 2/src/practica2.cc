@@ -5,10 +5,12 @@
 #include "obj3d.h"
 #include "revolution_object.h"
 
+#include "functions.h"
+
 // Enumerados:
 typedef enum{CUBE, TETRAHEDRON, O_PLY, REVOLUTION} _object_type;
 typedef enum{POINTS, LINES, SOLID, CHESS, ALL, TRANSLATION} _rendering_mode;
-typedef enum{CILINDER, TUBE, CONE, GLASS, INV_GLASS, PAWN} _revolution_obj;
+typedef enum{CILINDER, TUBE, CONE, GLASS, INV_GLASS, PAWN, SPHERE, PYRAMID, PARTIAL} _revolution_obj;
 
 // tamaño de los ejes
 const int AXIS_SIZE=5000;
@@ -57,6 +59,12 @@ Object3d un_cubo(v_cube, t_cube), un_tetraedro (v_tetrahedron, t_tetrahedron);
 //------------------------------------------------------------------------------------------------------------------
 // Objecto 3D con archivo PLY.
 Object3d objeto_ply("data/big_porsche.ply");
+//Object3d objeto_ply("data/gran_conejo.ply");
+//Object3d objeto_ply("data/indy_car.ply");
+//Object3d objeto_ply("data/beethoven.ply");
+//Object3d objeto_ply("data/big_spider.ply");
+//Object3d objeto_ply("data/f16.ply");
+//Object3d objeto_ply("data/ant.ply");
 
 // Vectores que guardan los perfiles.
 
@@ -82,8 +90,22 @@ vector<_vertex3f> perfil_pawn = {_vertex3f(0.0,1.4,0.0), _vertex3f(0.0,-1.4,0.0)
 																 _vertex3f(0.55,1.0,0.0), _vertex3f(0.5,1.2,0.0), _vertex3f(0.3,1.4,0.0)};
 RevolutionObject pawn(perfil_pawn);
 
-//------------------------------------------------------------------------------------------------------------------
+// Examen
 
+const float radius = 0.5;
+const unsigned int n_points = 20;
+vector<_vertex3f> perfil_sphere( create_sphere_outline( radius, n_points));
+
+RevolutionObject sphere(perfil_sphere,20);
+
+RevolutionObject pyramid(perfil_cono, 4);
+
+RevolutionObject partial_object(perfil_cilindro, 10, M_PI/4.0, ((3.0*M_PI)/2.0));
+
+//-----------------------------------------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------------------------------------------
 
 //**************************************************************************
 //
@@ -256,6 +278,36 @@ void draw_objects()
 						case CHESS: pawn.draw_solid_chess(); break;
 						case ALL: pawn.draw_points_edges_solid(); break;
 					}
+					break;
+
+				case SPHERE:
+					switch(modo) {
+						case POINTS: sphere.draw_points(); break;
+						case LINES: sphere.draw_edges(); break;
+						case SOLID: sphere.draw_solid(); break;
+						case CHESS: sphere.draw_solid_chess(); break;
+						case ALL: sphere.draw_points_edges_solid(); break;
+					}
+					break;
+
+				case PYRAMID:
+					switch (modo) {
+						case POINTS: pyramid.draw_points(); break;
+						case LINES: pyramid.draw_edges(); break;
+						case SOLID: pyramid.draw_solid(); break;
+						case CHESS: pyramid.draw_solid_chess(); break;
+						case ALL: pyramid.draw_points_edges_solid(); break;
+					}
+					break;
+
+				case PARTIAL:
+					switch (modo) {
+						case POINTS: partial_object.draw_points(); break;
+						case LINES: partial_object.draw_edges(); break;
+						case SOLID: partial_object.draw_solid(); break;
+						case CHESS: partial_object.draw_solid_chess(); break;
+						case ALL: partial_object.draw_points_edges_solid(); break;
+					}
 
 			}
 	}
@@ -325,6 +377,9 @@ switch(toupper(Tecla1)){
 	case '4' : rev_obj=GLASS; break;
 	case '5' : rev_obj=INV_GLASS; break;
 	case '6' : rev_obj=PAWN; break;
+	case '7' : rev_obj=SPHERE; break;
+	case '8' : rev_obj=PYRAMID; break;
+	case '9' : rev_obj=PARTIAL; break;
 }
 glutPostRedisplay();
 
